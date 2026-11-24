@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Así soy cuando amo de verdad</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: fixed;
+}
+
+.heart-bg {
+    position: fixed;
+    top: -10px;
+    font-size: 16px;
+    color: rgba(255, 30, 86, 0.7);
+    animation: caer linear forwards;
+    pointer-events: none;
+}
+
+@keyframes caer {
+    from {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(110vh);
+        opacity: 0;
+    }
+}
+
+.pantalla {
+    display: none;
+    background: rgba(255,255,255,0.95);
+    width: 92%;
+    max-width: 340px;
+    padding: 20px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+    animation: aparecer 0.8s ease;
+    z-index: 10;
+    position: relative;
+}
+
+.pantalla.activa {
+    display: block;
+}
+
+h1 {
+    color: #ff2e63;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #333;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+img {
+    width: 70%;
+    max-width: 200px;
+    border-radius: 20px;
+    margin: 12px auto;
+    display: block;
+}
+
+button {
+    margin-top: 12px;
+    padding: 11px;
+    width: 100%;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #ff4d6d, #ff1e56);
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.teamo {
+    position: fixed;
+    color: #ff1e56;
+    font-size: 18px;
+    animation: subir 2.5s linear forwards;
+    pointer-events: none;
+    z-index: 20;
+}
+
+@keyframes subir {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-120px) scale(1.4); }
+}
+#p5 {
+    background: radial-gradient(circle at bottom, #fefcff, #f7a6e9);
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    padding: 0;
+    border-radius: 0;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#p5.activa {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#particles-container {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    background-color: rgba(255, 105, 180, 0.3);
+    border-radius: 50%;
+    filter: blur(15px);
+    bottom: -200px;
+    animation: move-particles linear infinite;
+}
+
+@keyframes move-particles {
+    from { transform: translateY(0); }
+    to { transform: translateY(-120vh); }
+}
+
+.scene-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding-top: 15px;
+    padding-bottom: 0;
+    z-index: 5;
+}
+
+.text-rosas {
+    position: relative;
+    color: #c9204b;
+    font-size: 1.3rem;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    text-shadow: 0 0 15px rgba(245, 148, 184, 1);
+    opacity: 1;
+    z-index: 20;
+    text-align: center;
+    padding: 0 20px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    line-height: 1.3;
+}
+
+#rose-petals-fall-container {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100vw; 
+    height: 100vh;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 3;
+}
+
+.falling-rose-petal {
+    position: absolute;
+    background: #d52d58;
+    width: 40px; 
+    height: 55px;
+    border-radius: 15px 50%;
+    opacity: 0.9;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+.falling-rose-petal.fall-left { animation: petalFallLeft 12s linear forwards; }
+.falling-rose-petal.fall-right { animation: petalFallRight 12s linear forwards; }
+
+.rose {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 260px;
+    height: 450px;
+    z-index: 10;
+    animation: grow 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-fill-mode: both;
+    transform-origin: 50% 100%;
+    clip-path: inset(100% 0 0 0);
+    will-change: transform;
+}
+
+.rose.ramo[data-ramo="0"] { 
+    transform: translateX(-50%) scale(1.05); 
+    animation: grow 3s cubic-bezier(0.4,0,0.2,1) forwards, swayRose0 7s ease-in-out infinite 3.2s; 
+}
+
+.rose.ramo[data-ramo="1"] { 
+    transform: translateX(-50%) scale(0.9) rotate(-18deg); 
+    animation: grow 3s cubic-bezier(0.4,0,0.2,1) forwards, swayRose1 8s ease-in-out infinite 3.2s; 
+}
+
+.rose.ramo[data-ramo="2"] { 
+    transform: translateX(-50%) scale(0.9) rotate(18deg); 
+    animation: grow 3s cubic-bezier(0.4,0,0.2,1) forwards, swayRose2 7.5s ease-in-out infinite 3.2s; 
+}
+
+.rose.ramo[data-ramo="3"] { 
+    transform: translateX(-50%) scale(0.95) rotate(-12deg); 
+    animation: grow 3s cubic-bezier(0.4,0,0.2,1) forwards, swayRose3 8.5s ease-in-out infinite 3.2s; 
+}
+
+.rose.ramo[data-ramo="4"] { 
+    transform: translateX(-50%) scale(0.95) rotate(12deg); 
+    animation: grow 3s cubic-bezier(0.4,0,0.2,1) forwards, swayRose4 7.2s ease-in-out infinite 3.2s; 
+}
+
+.rose.ramo[data-ramo="5"] { 
+    transform: translateX(-50%) scale(0.85); 
+    animation: grow 3s cubic-bezier(0.4,0,0.2,1) forwards, swayRose5 8.2s ease-in-out infinite 3.2s; 
+}
+
+@keyframes swayRose0 {
+    0%,100% { transform: translateX(-50%) scale(1.05) rotate(0deg) skewY(0deg); }
+    30% { transform: translateX(-50%) scale(1.05) rotate(-3deg) skewY(-4deg); }
+    60% { transform: translateX(-50%) scale(1.05) rotate(2deg) skewY(3deg); }
+}
+@keyframes swayRose1 {
+    0%,100% { transform: translateX(-50%) scale(0.9) rotate(-18deg) skewY(0deg); }
+    25% { transform: translateX(-50%) scale(0.9) rotate(-22deg) skewY(-6deg); }
+    60% { transform: translateX(-50%) scale(0.9) rotate(-14deg) skewY(5deg); }
+}
+@keyframes swayRose2 {
+    0%,100% { transform: translateX(-50%) scale(0.9) rotate(18deg) skewY(0deg); }
+    30% { transform: translateX(-50%) scale(0.9) rotate(22deg) skewY(7deg); }
+    65% { transform: translateX(-50%) scale(0.9) rotate(14deg) skewY(-5deg); }
+}
+@keyframes swayRose3 {
+    0%,100% { transform: translateX(-50%) scale(0.95) rotate(-12deg) skewY(0deg); }
+    35% { transform: translateX(-50%) scale(0.95) rotate(-16deg) skewY(-7deg); }
+    70% { transform: translateX(-50%) scale(0.95) rotate(-8deg) skewY(4deg); }
+}
+@keyframes swayRose4 {
+    0%,100% { transform: translateX(-50%) scale(0.95) rotate(12deg) skewY(0deg); }
+    30% { transform: translateX(-50%) scale(0.95) rotate(16deg) skewY(6deg); }
+    65% { transform: translateX(-50%) scale(0.95) rotate(8deg) skewY(-4deg); }
+}
+@keyframes swayRose5 {
+    0%,100% { transform: translateX(-50%) scale(0.85) rotate(0deg) skewY(0deg); }
+    40% { transform: translateX(-50%) scale(0.85) rotate(-4deg) skewY(-5deg); }
+    80% { transform: translateX(-50%) scale(0.85) rotate(3deg) skewY(3deg); }
+}
+
+.petals {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    animation: gentleSway 6s ease-in-out infinite 3.5s;
+    transform-origin: bottom center;
+    z-index: 10;
+}
+
+.petals > div { 
+    position: absolute; 
+    background: #d52d58; 
+    width: 52px; 
+    height: 70px; 
+    transition: all 0.5s ease-out; 
+}
+
+.petals > div:nth-child(1) { 
+    border-radius: 10px; 
+    box-shadow: 0 0 20px rgba(245, 148, 184, 0.6); 
+    left: calc(50% - 26px); 
+    top: 32px; 
+    background: #d52d58; 
+    z-index: 3; 
+    animation: bloom-center 2s ease-out 1.5s forwards, glowing 2.5s ease-in-out infinite 2s; 
+}
+
+.petals > div:nth-child(2), .petals > div:nth-child(4) { 
+    background: #b81b43; 
+    left: calc(50% - 45px); 
+    border-radius: 0 30px 0 30px; 
+    transform-origin: bottom right; 
+}
+
+.petals > div:nth-child(3), .petals > div:nth-child(5) { 
+    background: #b81b43; 
+    left: calc(50% - 7px); 
+    border-radius: 30px 0 30px 0; 
+    transform-origin: bottom left; 
+}
+
+.petals > div:nth-child(2) { 
+    top: 36px; 
+    height: 74px; 
+    z-index: 5; 
+    animation: bloom2 3s ease-in-out 1.7s forwards, glowing 2.5s ease-in-out infinite 2.2s; 
+}
+
+.petals > div:nth-child(3) { 
+    top: 36px; 
+    height: 74px; 
+    z-index: 5; 
+    animation: bloom3 3s ease-in-out 1.7s forwards, glowing 2.5s ease-in-out infinite 2.2s; 
+}
+
+.petals > div:nth-child(4) { 
+    top: 36px; 
+    height: 78px; 
+    z-index: 4; 
+    animation: bloom4 3s ease-in-out 1.9s forwards, glowing 2.5s ease-in-out infinite 2.4s; 
+}
+
+.petals > div:nth-child(5) { 
+    top: 36px; 
+    height: 78px; 
+    z-index: 4; 
+    animation: bloom5 3s ease-in-out 1.9s forwards, glowing 2.5s ease-in-out infinite 2.4s; 
+}
+
+.petals > div:nth-child(6) { 
+    top: 32px; 
+    height: 74px; 
+    z-index: 2; 
+    animation: bloom6 3s ease-in-out 2.1s forwards, glowing 2.5s ease-in-out infinite 2.6s; 
+    background: #c9204b; 
+    left: calc(50% - 36px); 
+    border-radius: 0 20px 0 20px; 
+    transform-origin: bottom right; 
+}
+
+.petals > div:nth-child(7) { 
+    top: 32px; 
+    height: 74px; 
+    z-index: 2; 
+    animation: bloom7 3s ease-in-out 2.1s forwards, glowing 2.5s ease-in-out infinite 2.6s; 
+    background: #c9204b; 
+    left: calc(50% - 16px); 
+    border-radius: 20px 0 20px 0; 
+    transform-origin: bottom left; 
+}
+
+.calyx {
+    position: absolute;
+    top: 90px;
+    left: calc(50% - 5px);
+    transform: translateX(-50%);
+    z-index: 15;
+}
+
+.calyx > div { 
+    position: absolute; 
+    width: 23px; 
+    height: 48px; 
+    background: linear-gradient(to top, #054c05, #228b22); 
+    transform-origin: bottom center; 
+    clip-path: polygon(50% 0%, 100% 70%, 75% 100%, 25% 100%, 0% 70%); 
+    box-shadow: 0 0 5px rgba(0,0,0,0.3); 
+}
+
+.calyx > div:nth-child(1) { transform: rotate(-60deg); left: -20px; top: -5px; }
+.calyx > div:nth-child(2) { transform: rotate(-20deg); left: -10px; }
+.calyx > div:nth-child(3) { transform: rotate(18deg); left: 2px; }
+.calyx > div:nth-child(4) { transform: rotate(55deg); left: 12px; top: -5px; }
+
+.stem-bundle {
+    position: absolute;
+    width: 100%; 
+    height: 100%;
+    bottom: 0; 
+    left: 0;
+    z-index: 4;
+}
+
+.stem { 
+    position: absolute; 
+    bottom: 0; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: 9px; 
+    height: calc(100% - 102px); 
+    background: #054c05; 
+    border-radius: 0 0 50px 50px; 
+}
+
+.leaves > div:nth-child(1) { 
+    position: absolute; 
+    width: 36px; 
+    height: 64px; 
+    border-radius: 5px 40px 20px 40px; 
+    background: #054c05; 
+    transform-origin: bottom; 
+    transform: rotate(-30deg); 
+    top: 232px; 
+    left: calc(51% - 36px); 
+    box-shadow: inset 5px 5px #066406; 
+}
+
+.leaves > div:nth-child(2) { 
+    position: absolute; 
+    width: 36px; 
+    height: 64px; 
+    border-radius: 40px 0 40px 20px; 
+    background: #054c05; 
+    transform-origin: bottom; 
+    transform: rotate(30deg); 
+    top: 194px; 
+    left: 48%; 
+    box-shadow: inset -5px 5px #066406; 
+}
+
+.thorns > div { 
+    position: absolute; 
+    width: 0; 
+    height: 0; 
+}
+
+.thorns > div:nth-child(odd) { 
+    border: 5px solid transparent; 
+    border-left: 5px solid #054c05; 
+    left: calc(50% + 5px); 
+}
+
+.thorns > div:nth-child(even) { 
+    border: 5px solid transparent; 
+    border-right: 5px solid #054c05; 
+    left: calc(50% - 14px); 
+}
+
+.thorns > div:nth-child(1) { top: 260px; }
+.thorns > div:nth-child(2) { top: 220px; }
+
+@keyframes grow { 
+    0% { clip-path: inset(100% 0 0 0); opacity: 0; }
+    70% { opacity: 1; }
+    100% { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+
+@keyframes bloom-center { from { transform: scale(0.5); } to { transform: scale(1); } }
+@keyframes bloom2 { 100% { transform: rotate(-25deg); } }
+@keyframes bloom3 { 100% { transform: rotate(25deg); } }
+@keyframes bloom4 { 100% { transform: rotate(-15deg); } }
+@keyframes bloom5 { 100% { transform: rotate(15deg); } }
+@keyframes bloom6 { 100% { transform: rotate(-10deg); } }
+@keyframes bloom7 { 100% { transform: rotate(10deg); } }
+@keyframes glowing { 
+    50% { 
+        background: #dd3a61; 
+        box-shadow: 0 0 12px rgba(245, 148, 184, 0.35); 
+    } 
+}
+
+@keyframes gentleSway { 
+    0%, 100% { transform: rotate(0deg); } 
+    50% { transform: rotate(2deg); } 
+}
+
+@keyframes petalFallLeft { 
+    0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 1; } 
+    50%  { transform: translateY(50vh) rotate(180deg) translateX(-10vw); } 
+    100% { transform: translateY(110vh) rotate(360deg) translateX(-15vw); opacity: 0; } 
+}
+
+@keyframes petalFallRight { 
+    0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 1; } 
+    50%  { transform: translateY(50vh) rotate(-180deg) translateX(10vw); } 
+    100% { transform: translateY(110vh) rotate(-360deg) translateX(15vw); opacity: 0; } 
+}
+
+#cartaBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff4d6d, #d52d58);
+    color: white;
+    font-size: 26px;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 8px 20px rgba(213, 45, 88, 0.4);
+    transition: all 0.3s ease;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s infinite;
+}
+
+#cartaBtn.show {
+    display: flex;
+}
+
+#cartaBtn:active {
+    transform: scale(0.9);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 8px 20px rgba(213, 45, 88, 0.4);
+    }
+    50% {
+        box-shadow: 0 8px 30px rgba(213, 45, 88, 0.7);
+        transform: scale(1.05);
+    }
+}
+
+#cartaBox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+}
+
+#cartaBox.show {
+    display: flex;
+}
+
+#cartaContenido {
+    position: relative;
+    background: white;
+    padding: 40px 25px 25px 25px;
+    border-radius: 15px;
+    max-width: 320px;
+    width: 90%;
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.6;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.closeCarta {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(201, 32, 75, 0.1);
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #c9204b;
+    transition: all 0.2s;
+    line-height: 1;
+    padding: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.closeCarta:active {
+    transform: scale(1.1);
+    background: rgba(201, 32, 75, 0.2);
+}
+
+.bubbles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 30;
+}
+
+.bubble {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    animation: floatUp 8s linear infinite;
+    opacity: .8;
+}
+
+.bubble:nth-child(1){left:20%;animation-delay:0s;}
+.bubble:nth-child(2){left:40%;animation-delay:2s;}
+.bubble:nth-child(3){left:60%;animation-delay:4s;}
+
+.heart {
+    width: 22px;
+    fill: #ff4d6d;
+    filter: drop-shadow(0 0 8px pink);
+}
+
+@keyframes floatUp {
+    0%{transform:translateY(0) scale(.5);opacity:0;}
+    10%{opacity:1;}
+    100%{transform:translateY(-500px) scale(1.2);opacity:0;}
+}
+
+.stars {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: .8;
+    animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+    from{opacity:.3;}
+    to{opacity:1;}
+}
+
+#bouquet-container {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    height: 520px;
+    margin: 0 auto;
+    transform: rotate(2deg);
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="pantalla activa" id="p1">
+    <h1>Oye… Treycy💕</h1>
+    <img src="https://i.postimg.cc/pTXkhZrp/43309b4a-thumb.webp">
+    <p>Esto es solo para ti…<br>tócalo con cariño 😌</p>
+    <button onclick="siguiente(1)">Toca Aqui amor ❤️</button>
+</div>
+
+<div class="pantalla" id="p2">
+    <h1>Soy celoso porque te amo 😌</h1>
+    <img src="https://i.postimg.cc/GmSQyrFv/conejo-1.jpg">
+    <p>
+        No es desconfianza…<br>
+        es que cuando amo,<br>
+        cuido con el corazón 💕
+    </p>
+    <button onclick="siguiente(2)">Siguiente 💖</button>
+</div>
+
+<div class="pantalla" id="p3">
+    <h1>Soy enojón porque me importas 😤</h1>
+    <img src="https://i.postimg.cc/bvktwj3Y/conejo-2.jpg">
+    <p>
+        A veces me enojo,<br>
+        porque quiero protegerte,<br>
+        porque tu sonrisa me importa 😔
+    </p>
+    <button onclick="siguiente(3)">Siguiente ❤️</button>
+</div>
+
+<div class="pantalla" id="p4">
+    <h1>Soy miedoso por perderte 🥺</h1>
+    <img src="https://i.postimg.cc/QC4ByNxk/conejo-3.jpg">
+    <p>
+        Tengo miedo…<br>
+        porque sin ti,<br>
+        mi mundo no brilla igual 💔
+    </p>
+    <button onclick="siguiente(4)">TE AMO 💞</button>
+</div>
+
+<div class="pantalla" id="p5">
+    <div class="stars" id="stars"></div>
+    <button id="cartaBtn">💌</button>
+    <div id="particles-container"></div>
+    <div id="rose-petals-fall-container"></div>
+    
+    <div class="scene-container">
+        <div class="text-rosas">
+            Para ti Treycy Bridney con amorcito y cariñito😘<br>
+  Te amo con todo mi corazoncito 🌹<br>
+  Eres la persona más importante en mi vida, la que me hace sonreír incluso en los días difíciles <br>
+  Gracias por existir y por llenar mi mundo de amor y felicidad <br>
+  Att: YezerSan😘
+</div>
+        
+        <div id="bouquet-container">
+            <div class="bubbles">
+                <div class="bubble"><svg class="heart" viewBox="0 0 32 29"><path d="M23.6,0c-3.4,0-6.4,2.2-7.6,5.4C14.8,2.2,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,16,20.6,16,20.6s16-11.2,16-20.6C32,3.8,28.2,0,23.6,0z"/></svg></div>
+                <div class="bubble"><svg class="heart" viewBox="0 0 32 29"><path d="M23.6,0c-3.4,0-6.4,2.2-7.6,5.4C14.8,2.2,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,16,20.6,16,20.6s16-11.2,16-20.6C32,3.8,28.2,0,23.6,0z"/></svg></div>
+                <div class="bubble"><svg class="heart" viewBox="0 0 32 29"><path d="M23.6,0c-3.4,0-6.4,2.2-7.6,5.4C14.8,2.2,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,16,20.6,16,20.6s16-11.2,16-20.6C32,3.8,28.2,0,23.6,0z"/></svg></div>
+            </div>
+            
+            <div class="rose ramo" data-ramo="0" style="bottom:0; z-index:6;"></div>
+            <div class="rose ramo" data-ramo="1" style="bottom:0; z-index:6;"></div>
+            <div class="rose ramo" data-ramo="2" style="bottom:0; z-index:6;"></div>
+            <div class="rose ramo" data-ramo="3" style="bottom:0; z-index:6;"></div>
+            <div class="rose ramo" data-ramo="4" style="bottom:0; z-index:6;"></div>
+            <div class="rose ramo" data-ramo="5" style="bottom:0; z-index:6;"></div>
+        </div>
+    </div>
+</div>
+
+<audio id="musica" loop>
+    <source src="https://github.com/codeninja543/codeninja5433/raw/refs/heads/main/Zo%C3%A9%20-%20So%C3%B1%C3%A9%20(MTV%20Unplugged).mp3">
+</audio>
+
+<div id="cartaBox">
+    <div id="cartaContenido">
+        <button class="closeCarta">✖</button>
+        <p id="cartaTexto">
+    Estas rosas son solo para ti 🌹<br><br>
+    No hay nadie más que tú en mi corazón 💖<br>
+    Eres mi paz, mi sonrisa y mi todo.
+</p>
+    </div>
+</div>
+
+<script>
+let musica = document.getElementById("musica");
+let musicaIniciada = false;
+
+document.body.addEventListener("click", () => {
+    if (!musicaIniciada) {
+        musica.currentTime =132;
+        musica.play().catch(()=>{});
+        musicaIniciada = true;
+    }
+    crearTeAmo();
+});
+
+function siguiente(n) {
+    document.getElementById("p"+n).classList.remove("activa");
+    document.getElementById("p"+(n+1)).classList.add("activa");
+   
+    if (n === 4) {
+        document.getElementById("cartaBtn").classList.add("show");
+        inicializarRosas();
+    }
+}
+
+function crearTeAmo() {
+    let t = document.createElement("div");
+    t.className = "teamo";
+    t.innerHTML = "Te amo ❤️";
+    t.style.left = Math.random() * 100 + "vw";
+    t.style.bottom = "0px";
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2500);
+}
+
+function crearCorazonFondo() {
+    let h = document.createElement("div");
+    h.className = "heart-bg";
+    h.innerHTML = "te amo";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.animationDuration = (3 + Math.random() * 3) + "s";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 6000);
+}
+
+setInterval(crearCorazonFondo, 300);
+
+function inicializarRosas() {
+    const particlesContainer = document.getElementById('particles-container');
+    const particleCount = 25;
+    
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        const size = Math.random() * 60 + 20; 
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = Math.random() * 100 + 'vw';
+        const duration = Math.random() * 8 + 5;
+        const delay = Math.random() * -10;
+        particle.style.animation = `move-particles ${duration}s linear ${delay}s infinite`;
+        particlesContainer.appendChild(particle);
+    }
+
+    const roseHeights = [450, 400, 400, 425, 425, 375];
+    document.querySelectorAll('.rose.ramo').forEach((rose, idx) => {
+        rose.innerHTML = `
+            <div class="petals">
+                <div></div> <div></div> <div></div>
+                <div></div> <div></div> <div></div> <div></div>
+            </div>
+            <div class="calyx">
+                <div></div> <div></div> <div></div> <div></div>
+            </div>
+            <div class="stem-bundle">
+                <div class="stem"></div>
+                <div class="leaves">
+                    <div></div> <div></div>
+                </div>
+                <div class="thorns">
+                    <div></div> <div></div>
+                </div>
+            </div>
+        `;
+        rose.style.height = roseHeights[idx] + 'px';
+    });
+
+    const petalFallContainer = document.getElementById('rose-petals-fall-container');
+    let petalFallDirection = 0;
+    
+    function createFallingRosePetal() {
+        const roses = document.querySelectorAll('.rose');
+        if (roses.length === 0) return;
+        const roseElement = roses[Math.floor(Math.random() * roses.length)];
+        const petal = document.createElement('div');
+        petal.classList.add('falling-rose-petal');
+        
+        if (petalFallDirection % 2 === 0) { 
+            petal.classList.add('fall-left'); 
+        } else { 
+            petal.classList.add('fall-right'); 
+        }
+        petalFallDirection++;
+        
+        const rect = roseElement.getBoundingClientRect();
+        const startX = rect.left + rect.width / 2;
+        const startY = rect.top + 70;
+        petal.style.left = `${startX}px`;
+        petal.style.top = `${startY}px`;
+        
+        petalFallContainer.appendChild(petal);
+        petal.addEventListener('animationend', () => { petal.remove(); });
+    }
+    
+    setTimeout(() => { 
+        setInterval(createFallingRosePetal, 4500); 
+    }, 4000);
+
+    const stars = document.getElementById("stars");
+    for(let i=0;i<100;i++){
+        const s=document.createElement("div");
+        s.className="star";
+        const size=Math.random()*2+1;
+        s.style.width=size+"px";
+        s.style.height=size+"px";
+        s.style.left=Math.random()*100+"vw";
+        s.style.top=Math.random()*100+"vh";
+        s.style.animationDelay=Math.random()*3+"s";
+        stars.appendChild(s);
+    }
+}
+
+const cartaBtn = document.getElementById("cartaBtn");
+const cartaBox = document.getElementById("cartaBox");
+const cerrarCartaBtn = document.querySelector(".closeCarta");
+
+cartaBtn.addEventListener("click", () => {
+    cartaBox.classList.add("show");
+});
+
+cerrarCartaBtn.addEventListener("click", () => {
+    cartaBox.classList.remove("show");
+});
+
+cartaBox.addEventListener("click", (e) => {
+    if (e.target === cartaBox) {
+        cartaBox.classList.remove("show");
+    }
+});
+</script>
+
+</body>
+</html>
